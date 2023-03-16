@@ -37,3 +37,4 @@ What we want:
 # Resources:
 
 - https://polkadot.js.org/docs/api/start/api.tx
+- https://github.com/polkadot-js/extension
