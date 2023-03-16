@@ -32,3 +32,8 @@ What we want:
 1) callIndex[0] => moduleIndex
 2) callIndex[1] => callIndex
 3) args => data
+
+
+# Resources:
+
+- https://polkadot.js.org/docs/api/start/api.tx
