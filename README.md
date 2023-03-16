@@ -26,3 +26,9 @@ Polkadot JS Transaction object example:
       }
    }
 ```
+- To clarify, callIndex is of type "Uint8Array" of length 2, args is also of type "Uint8Array"
+
+What we want:
+1) callIndex[0] = moduleIndex
+2) callIndex[1] = callIndex
+3) args = args
