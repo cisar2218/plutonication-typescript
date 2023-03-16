@@ -31,4 +31,4 @@ Polkadot JS Transaction object example:
 What we want:
 1) callIndex[0] = moduleIndex
 2) callIndex[1] = callIndex
-3) args = args
+3) args = customData
