@@ -9,7 +9,7 @@ server.on("connection", (socket) => {
         content: [1, "2"]
     }));
 
-    socket.on("message", (data: string) => {
+    socket.on("message", (data) => {
         const packet = JSON.parse(data);
 
         switch (packet.type) {
