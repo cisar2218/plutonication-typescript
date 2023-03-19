@@ -1,7 +1,14 @@
 # plutonication-typescript
 Typescript version of C# .NET class library [Plutonication](https://github.com/cisar2218/Plutonication).
 
+## Instalation
+[Npm package](https://www.npmjs.com/package/plutonication-typescript) can be installed with command:
 
+```
+npm install plutonication-typescript
+```
+
+## Deve
 Polkadot JS Transaction object example:
 ```json
 {
