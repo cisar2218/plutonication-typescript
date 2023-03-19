@@ -3,7 +3,6 @@ import { PlutoMessage } from './PlutoMessage';
 import { MessageCode } from './MessageCode';
 import * as net from 'net';
 import { AccessCredentials } from './AccessCredentials';
-import { Socket } from 'socket.io';
 import { Method } from './Method';
 import { Queue } from './Queue';
 import { EventEmitter } from 'events';
