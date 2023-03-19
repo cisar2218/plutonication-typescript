@@ -1,20 +1,37 @@
-import { WebSocketServer } from "ws";
+import * as net from 'net';
+import { PlutoMessage } from '../src/PlutoMessage';
 
-const server = new WebSocketServer({ port: 3000 });
+const serverHost = '127.0.0.1';
+const serverPort = 3000;
 
-server.on("connection", (socket) => {
-    // send a message to the client
-    socket.send(JSON.stringify({
-        type: "hello from server",
-        content: [1, "2"]
-    }));
+const server = net.createServer((socket) => {
+  console.log('Client connected.');
 
-    socket.on("message", (data) => {
-        const packet = JSON.parse(data);
+  socket.on('data', (data: Buffer) => {
+    
+    // const message = data.toString().trim();
+    const incMessage = PlutoMessage.fromBuffer(data);
+    console.log(`Received: ${incMessage.customData}`);
 
-        switch (packet.type) {
-            case "hello from client":
-                break;
-        }
-    });
+    const response = new Uint8Array(1);
+    response[0] = 1;
+    console.log(`Sending: ${response}`);
+    socket.write(response);
+  });
+
+  socket.on('end', () => {
+    console.log('Client disconnected.');
+  });
+
+  socket.on('error', (err: Error) => {
+    console.error(`Error: ${err.message}`);
+  });
+});
+
+server.listen(serverPort, serverHost, () => {
+  console.log(`Server started at ${serverHost}:${serverPort}`);
+});
+
+server.on('error', (err: Error) => {
+  console.error(`Server error: ${err.message}`);
 });
