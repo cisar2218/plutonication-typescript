@@ -35,4 +35,8 @@ export class PlutoMessage {
         }
         return new Method(this.customData[0], this.customData[1], data);
     }
+
+    static fromBuffer(data: Buffer) {
+        return new PlutoMessage(data[0], data.slice(1));
+    }
 }
