@@ -10,6 +10,9 @@
     "start-client": "ts-node examples/client.ts",
     "test": "jest"
   },
+  "files": [
+    "dist"
+  ],
   "keywords": [],
   "author": "Dušan Jánsky",
   "license": "ISC",
