@@ -1,7 +1,7 @@
 # plutonication-typescript
 Typescript version of C# .NET class library [Plutonication](https://github.com/cisar2218/Plutonication).
 ## Motivation
-We have decided to implement JS version because we are planning to implement chrome extension that allow user to connect existing dApps with wallet with our connector Plutonication. In additional it's now possible to implement plutonication directly to existing *web3* apps.
+We have decided to implement JS version because we are planning to implement chrome extension that allow user to connect existing dApps with wallet with our connector Plutonication. In additional it's now possible to implement plutonication directly to existing *web3* dApps.
 
 ## Instalation
 [Npm package](https://www.npmjs.com/package/plutonication-typescript) can be installed with command:
