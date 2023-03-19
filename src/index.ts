@@ -1,7 +1,10 @@
+import { ApiPromise, WsProvider } from "@polkadot/api";
 import { Socket } from "socket.io";
 import { WebSocketServer } from "ws";
 import { MessageCode } from "./MessageCode";
 import { PlutoEventManager, PlutoEvent } from "./PlutoEventManager";
+
+
 
 const manager = new PlutoEventManager();
 
@@ -27,3 +30,22 @@ manager.on(PlutoEvent.ConnectionClosed, () => {
 });
 
 manager.listenSafeAsync("samplePassword");
+
+
+const runPolkadot = async () => {
+    // Construct
+    const wsProvider = new WsProvider('wss://rpc.polkadot.io');
+    const api = await ApiPromise.create({ provider: wsProvider });
+
+    const ADDR = '5DoorUT3UK39bGByh74ZcjtyLfYPHVyxiTpyXvZxZgbzCbE7';
+
+    const info = api.tx.balances.transfer(ADDR, 5000000)
+
+    console.log(typeof info)
+}
+
+
+runPolkadot();
+
+//manager.sendMethod()
+

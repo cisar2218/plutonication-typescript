@@ -7,6 +7,7 @@ import { Socket } from 'socket.io';
 import { Method } from './Method';
 import { Queue } from './Queue';
 import { EventEmitter } from 'events';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 
 export enum PlutoEvent {
     MessageReceived = 'messageReceived',
@@ -128,6 +129,16 @@ export class PlutoEventManager extends EventEmitter implements IPlutoManager {
         msg.set(transaction.parameters, 2);
 
         this.sendMessage(new PlutoMessage(MessageCode.Method, msg));
+    }
+
+    sendExtrinsic(extrinsic: SubmittableExtrinsic<any, any>): void {
+        const methodData = new Method(
+            extrinsic.callIndex[0],
+            extrinsic.callIndex[1],
+            extrinsic.data,
+        );
+
+        this.sendMethod(methodData);
     }
 
     isConnected(): boolean {
