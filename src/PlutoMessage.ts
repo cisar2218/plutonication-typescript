@@ -25,7 +25,7 @@ export class PlutoMessage {
             merged.set(this.customData, 1);
             return merged;
         }
-        const idAsByteArray = new Uint8Array(1);
+        const idAsByteArray = new Uint8Array(2);
         idAsByteArray[0] = this.identifier;
         return idAsByteArray;
     }

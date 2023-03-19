@@ -6,15 +6,16 @@ import { AccessCredentials } from './AccessCredentials';
 import { Socket } from 'socket.io';
 import { Method } from './Method';
 import { Queue } from './Queue';
+import { EventEmitter } from 'events';
 
-type Notify = () => void;
+export enum PlutoEvent {
+    MessageReceived = 'messageReceived',
+    ConnectionEstablished = 'connectionEstablished',
+    ConnectionClosed = 'connectionClosed',
+    ConnectionRefused = 'connectionRefused',
+}
 
-export class PlutoEventManager implements IPlutoManager {
-
-    public ConnectionEstablished?: Notify;
-    public ConnectionRefused?: Notify;
-    public ConnectionClosed?: Notify;
-    public MessageReceived?: Notify;
+export class PlutoEventManager extends EventEmitter implements IPlutoManager {
 
     private clientIsAuthorized = false;
     private socket?: net.Socket;
@@ -22,11 +23,19 @@ export class PlutoEventManager implements IPlutoManager {
     public MESSAGE_QUEUE_CAPACITY = 20;
     server: any;
 
+    private triggerEvent(event: PlutoEvent) {
+        this.emit(event);
+    }
+
     sendMessageWithCode(code: MessageCode): void {
         this.sendMessage(new PlutoMessage(code));
-    } sendMessageWithCodeAsync(code: MessageCode): Promise<void> {
+    } 
+    
+    sendMessageWithCodeAsync(code: MessageCode): Promise<void> {
         throw new Error('Method not implemented.');
-    } sendMessage(message: PlutoMessage): void {
+    } 
+    
+    sendMessage(message: PlutoMessage): void {
         const msg = message.toByteArray();
         if (this.socket) this.socket.write(msg);
         else throw new Error("Socket is not defined");
@@ -59,9 +68,12 @@ export class PlutoEventManager implements IPlutoManager {
         console.log("Client Authorized:", this.clientIsAuthorized);
 
         if (this.clientIsAuthorized) {
-            this.sendMessageWithCode(MessageCode.Success);
+            this.sendMessage(new PlutoMessage(MessageCode.Success, "Hello from the other side!"));
+            this.triggerEvent(PlutoEvent.ConnectionEstablished);
+            console.log("Success code sent.");
         } else {
             this.sendMessageWithCode(MessageCode.Refused);
+            this.triggerEvent(PlutoEvent.ConnectionRefused);
         }
     }
 
@@ -76,10 +88,12 @@ export class PlutoEventManager implements IPlutoManager {
                     this.authorizeClientAttempt(incMessage, key);
                     return;
                 }
-
+                
                 // on incoming data add to queue
+                
                 if (this.incomingMessages.count() < this.MESSAGE_QUEUE_CAPACITY) {
                     this.incomingMessages.enqueue(incMessage);
+                    this.triggerEvent(PlutoEvent.MessageReceived);
                 } else {
                     // TODO handle full queue
                 }
@@ -87,6 +101,7 @@ export class PlutoEventManager implements IPlutoManager {
 
             socket.on('end', () => {
                 console.log('Client disconnected.');
+                this.triggerEvent(PlutoEvent.ConnectionClosed);
             });
 
             socket.on('error', (err: Error) => {
