@@ -2,7 +2,7 @@
   "name": "plutonication-typescript",
   "version": "0.1.1",
   "description": "Typescript implementation of Plutonication library (originaly implemented in .NET).",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsup src/index.ts --outDir dist",
     "start": "ts-node src/index.ts",
